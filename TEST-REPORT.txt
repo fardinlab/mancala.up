@@ -1,5 +1,11 @@
 Combined Capture + Avalanche verification — 17 October 2026
 
+Compact layout update: main game fits 320x568, 375x667, 390x700 and 430x820
+viewports with document height equal to viewport height. All 14 board inputs
+and the solve button were in view. Verified Options, example load, thinking
+time, full result dialog and both game-mode searches in the compact view.
+Native on-screen keyboard behavior has not been tested on a physical phone.
+
 Syntax check passed.
 Capture: 60 comparisons with naive depth-5 minimax matched; 4,155 legal
 transitions preserved stone counts. Fixtures covered captures for either side,

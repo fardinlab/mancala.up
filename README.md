@@ -2,6 +2,10 @@
 
 Both game modes are included in this delivery. Capture is the default. Choose Game mode above the board to switch to Avalanche. The original vertical board and colors are retained, with responsive controls for phones, tablets and desktops.
 
+## Compact mobile screen
+
+The main mobile game fills the available screen height. All 12 pits, both stores, mode, turn, recommendation and action buttons remain visible together. Thinking time, strategy, sample board and help are in Options. Move details opens the full outcome and search explanation. The main game was checked without page scrolling at 320×568, 375×667, 390×700 and 430×820 browser viewports. Native keyboards and browser zoom can temporarily reduce usable space; dismiss the keyboard to see the complete game again. Optional help panels may scroll when their content exceeds the screen.
+
 ## Open either version directly
 
 - index.html: combined app, starting in Capture mode.

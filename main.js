@@ -104,6 +104,10 @@ if(typeof document==='undefined' && typeof self!=='undefined') {
 if(typeof document!=='undefined') {
   const $=id=>document.getElementById(id);
   let worker=null;
+  $('options').onclick=()=>{$('help-rules').textContent=$('mode-rules').textContent;$('options-dialog').showModal();};
+  $('close-options').onclick=()=>$('options-dialog').close();
+  $('result-more').onclick=()=>{$('details-outcome').textContent=$('result-detail').textContent;$('details-search').textContent=$('search-detail').textContent;$('details-dialog').showModal();};
+  $('close-details').onclick=()=>$('details-dialog').close();
   const inputs=[...document.querySelectorAll('input')];
   function cancel(){if(worker){worker.terminate();worker=null;} $('solve').disabled=false;$('cancel').hidden=true;}
   function invalidate(){cancel();document.querySelectorAll('.suggested').forEach(el=>el.classList.remove('suggested'));$('result-label').textContent='NEXT MOVE';$('result-title').textContent='Ready when you are.';$('result-detail').textContent='Enter your values above and choose whose turn it is.';$('search-detail').textContent='';const valid=inputs.every(el=>el.value!==''&&el.checkValidity());$('total').textContent=valid?inputs.reduce((s,el)=>s+Number(el.value),0)+' stones total':'Enter all 12 pits & stores';}
@@ -121,8 +125,8 @@ if(typeof document!=='undefined') {
   updateMode();
   $('solver-form').addEventListener('input',invalidate);
   $('solver-form').addEventListener('change',invalidate);
-  $('clear').onclick=()=>{for(const input of inputs)input.value=input.id.startsWith('store')?'0':'';$('turn').value='0';invalidate();$('pit-0').focus();};
-  $('example').onclick=()=>{[2,5,3,6,4,4,0,4,5,3,6,2,4,0].forEach((v,i)=>$(i===6?'store-0':i===13?'store-1':'pit-'+i).value=v);$('turn').value='0';invalidate();};
+  $('clear').onclick=()=>{for(const input of inputs)input.value=input.id.startsWith('store')?'0':'';$('turn').value='0';invalidate();};
+  $('example').onclick=()=>{[2,5,3,6,4,4,0,4,5,3,6,2,4,0].forEach((v,i)=>$(i===6?'store-0':i===13?'store-1':'pit-'+i).value=v);$('turn').value='0';invalidate();$('options-dialog').close();};
   $('cancel').onclick=()=>{invalidate();$('result-title').textContent='Search cancelled.';};
   $('solver-form').onsubmit=event=>{
     event.preventDefault();invalidate();
@@ -133,6 +137,6 @@ if(typeof document!=='undefined') {
     $('solve').disabled=true;$('cancel').hidden=false;$('result-title').textContent='Thinking…';$('result-detail').textContent=mode==='capture'?'Checking captures, extra turns and both players’ replies.':'Checking avalanche chains, extra turns and both players’ replies.';
     function show(result,done){const n=Mancala.pits(player).indexOf(result.pit)+1;const next=Mancala.move(board,player,result.pit,mode);document.querySelectorAll('.suggested').forEach(el=>el.classList.remove('suggested'));$('pit-label-'+result.pit).classList.add('suggested');$('result-label').textContent=mode.toUpperCase()+' · '+(player===0?'MY':'OPPONENT’S')+' MOVE'+(done?'':' · SEARCHING');$('result-title').textContent='Move: Pit '+n;$('result-detail').textContent=`${player===0?'My (left)':'Opponent (right)'} column, ${n}${n===1?'st':n===2?'nd':n===3?'rd':'th'} pit from the top. ${next.captured?`Captures ${next.captured} stones. `:''}${next.relays?`Continues through ${next.relays} relay pickups. `:''}${next.terminal?'Ends the game. ':next.extraTurn?'Gives an extra turn. ':''}Scores after this move: Me ${next.board[6]} · Opponent ${next.board[13]}.`;$('search-detail').textContent=`${done?'Search complete':'Thinking'} · ${result.depth} moves deep · ${result.nodes.toLocaleString()} positions. ${result.solved ? `Solved to game end against strongest replies. Expected final margin: ${result.value/1000} for Me. ${result.closeApplied?'Closest winning option selected.':''}` : 'Time-limited estimate. Close-win preference waits for a fully solved position; strongest move used for now.'}`;}
     function failed(){cancel();$('result-title').textContent='Could not start the solver.';$('result-detail').textContent='Open this app through GitHub Pages or a local web server, then try again.';$('search-detail').textContent='';}
-    try{worker=new Worker('main.js?v=both-1');worker.onmessage=({data})=>{if(data.type==='error'){failed();return;}show(data.result,data.type==='done');if(data.type==='done'){cancel();$('result-title').scrollIntoView({block:'center',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}};worker.onerror=event=>{event.preventDefault();failed();};worker.postMessage({board,player,mode,timeMs:Number($('thinking').value),closeWin:$('strategy').value==='close'});}catch{failed();}
+    try{worker=new Worker('main.js?v=compact-1');worker.onmessage=({data})=>{if(data.type==='error'){failed();return;}show(data.result,data.type==='done');if(data.type==='done'){cancel();if(!window.matchMedia('(max-width: 700px), (max-height: 600px)').matches)$('result-title').scrollIntoView({block:'center',behavior:'smooth'});}};worker.onerror=event=>{event.preventDefault();failed();};worker.postMessage({board,player,mode,timeMs:Number($('thinking').value),closeWin:$('strategy').value==='close'});}catch{failed();}
   };
 }

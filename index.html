@@ -8,7 +8,7 @@
 
   <title>Win Mancala — Capture &amp; Avalanche</title>
 
-  <link rel="stylesheet" href="style.css?v=both-1">
+  <link rel="stylesheet" href="style.css?v=compact-1">
   <link rel="icon" href="GamePigeon.png" type="image/png">
 
 </head>
@@ -22,15 +22,13 @@
   <main>
 
     <form id="solver-form">
-      <button class="reset" id="clear" type="button">Reset / Clear</button>
       <p class="instructions"><span id="mode-name">Capture · Randomized</span><br>Copy your current counts, including zeros.<br><strong>My pits: left ↓ · Opponent pits: right ↑</strong><br>Pit numbers run top to bottom on both sides.</p>
       <div class="settings">
-        <label>Game mode <select id="mode"><option value="capture" selected>Capture mode</option><option value="avalanche">Avalanche mode</option></select></label>
-        <label>Whose turn? <select id="turn"><option value="0">My turn</option><option value="1">Opponent’s turn</option></select></label>
-        <label>Thinking time <select id="thinking"><option value="1000">1 second</option><option value="3000" selected>3 seconds</option><option value="10000">10 seconds</option></select></label>
-        <label>Strategy <select id="strategy"><option value="close" selected>Prefer a close win</option><option value="strong">Strongest winning margin</option></select></label>
+        <label>Game mode <select id="mode"><option value="capture" selected>Capture</option><option value="avalanche">Avalanche</option></select></label>
+        <label>Whose turn? <select id="turn"><option value="0">My turn</option><option value="1">Opponent</option></select></label>
+
       </div>
-      <div class="winner" aria-live="polite" aria-atomic="true"><small id="result-label">NEXT MOVE</small><div id="result-title">Enter your board</div><p id="result-detail">Then press Find Best Move.</p><p id="search-detail"></p></div>
+      <div class="winner" aria-live="polite" aria-atomic="true"><small id="result-label">NEXT MOVE</small><div id="result-title">Enter your board</div><p id="result-detail">Then press Find Best Move.</p><p id="search-detail"></p><button id="result-more" type="button">Move details</button></div>
       <div class="board" id="board">
         <div class="endzone" id="player1"><label>Opponent store<input id="store-1" aria-label="Opponent store" type="number" inputmode="numeric" min="0" max="999" step="1" value="0" required></label></div>
         <div class="side-label">My pits ↓</div><div class="side-label">Opponent pits ↑</div>
@@ -49,8 +47,29 @@
         <div class="endzone" id="player0"><label>My store<input id="store-0" aria-label="My store" type="number" inputmode="numeric" min="0" max="999" step="1" value="0" required></label></div>
       </div>
       <p id="total">Enter all 12 pits</p>
-      <button class="reset solve" id="solve" type="submit">Find Best Move</button>
-      <div class="actions"><button id="cancel" type="button" hidden>Cancel search</button><button id="example" type="button">Load example</button></div>
+      <div class="toolbar">
+        <button class="reset solve" id="solve" type="submit">Find Best Move</button>
+        <button id="clear" type="button">Clear</button>
+        <button id="options" type="button">Options</button>
+        <button id="cancel" type="button" hidden>Cancel</button>
+      </div>
+      <dialog id="options-dialog" aria-labelledby="options-title">
+        <h2 id="options-title">Options &amp; help</h2>
+        <div class="dialog-settings">
+        <label>Thinking time <select id="thinking"><option value="1000">1 second</option><option value="3000" selected>3 seconds</option><option value="10000">10 seconds</option></select></label>
+        <label>Strategy <select id="strategy"><option value="close" selected>Prefer a close win</option><option value="strong">Strongest winning margin</option></select></label>
+        </div>
+        <p>Copy every pit, including zeros. My pits are on the left, opponent pits on the right. Both columns run from Pit 1 at the top to Pit 6 at the bottom.</p>
+        <p>The blue outline marks the recommended move. Update the board after each move in GamePigeon.</p>
+        <p id="help-rules"></p>
+        <p>Close wins are preferred only in fully solved positions. No win or exact margin is guaranteed.</p>
+        <button id="example" type="button">Load example</button>
+        <button id="close-options" type="button">Done</button>
+      </dialog>
+      <dialog id="details-dialog" aria-labelledby="details-title">
+        <h2 id="details-title">Move details</h2><p id="details-outcome"></p><p id="details-search"></p>
+        <button id="close-details" type="button">Done</button>
+      </dialog>
       <p class="instructions">The blue outline marks the recommended pit.<br>After a move in GamePigeon, update the values here.<br>Suggestions do not change your board.<br><span id="mode-rules">Capture: the last stone in an empty own pit captures it and the occupied opposite pit.</span><br>Close wins are preferred only after solving to game end.<br>The opponent’s actual moves can change the final margin.</p>
     </form>
     <noscript>Enable JavaScript to use this solver.</noscript>
@@ -64,7 +83,7 @@
     </a>
   </footer>
 
-  <script src="main.js?v=both-1"></script>
+  <script src="main.js?v=compact-1"></script>
 
 </body>
 
