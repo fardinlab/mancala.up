@@ -1,0 +1,19 @@
+Combined Capture + Avalanche verification — 17 October 2026
+
+Syntax check passed.
+Capture: 60 comparisons with naive depth-5 minimax matched; 4,155 legal
+transitions preserved stone counts. Fixtures covered captures for either side,
+no capture across an empty pit, extra turns, skipped stores and collection.
+Avalanche: 40 comparisons with naive depth-4 minimax matched; 1,994 moves
+matched an independent route-based relay implementation and conserved stones.
+Solved close-win fixture selected margin +4 instead of strongest margin +6.
+
+Browser: Capture and Avalanche produced distinct mode-labeled recommendations
+using the same entered board. Switching modes preserved counts, cleared the
+highlight and cancelled a ten-second active worker. Console had no warnings
+or errors during the checks.
+Layout: 320, 390, 768 and 1366px viewports fit without horizontal overflow;
+all 12 pit inputs remained present. Settings used two phone columns and four
+desktop columns. Checked in the desktop browser; no physical-phone testing.
+
+No deployment to the customer's GitHub account was performed.

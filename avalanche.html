@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Win Mancala — Capture &amp; Avalanche</title>
+
+  <link rel="stylesheet" href="style.css?v=both-1">
+  <link rel="icon" href="GamePigeon.png" type="image/png">
+
+</head>
+
+<body>
+  <header>
+    <img src="GamePigeon.png" alt="GamePigeon Logo">
+    <h1>Win Mancala</h1>
+  </header>
+
+  <main>
+
+    <form id="solver-form">
+      <button class="reset" id="clear" type="button">Reset / Clear</button>
+      <p class="instructions"><span id="mode-name">Capture · Randomized</span><br>Copy your current counts, including zeros.<br><strong>My pits: left ↓ · Opponent pits: right ↑</strong><br>Pit numbers run top to bottom on both sides.</p>
+      <div class="settings">
+        <label>Game mode <select id="mode"><option value="capture">Capture mode</option><option value="avalanche" selected>Avalanche mode</option></select></label>
+        <label>Whose turn? <select id="turn"><option value="0">My turn</option><option value="1">Opponent’s turn</option></select></label>
+        <label>Thinking time <select id="thinking"><option value="1000">1 second</option><option value="3000" selected>3 seconds</option><option value="10000">10 seconds</option></select></label>
+        <label>Strategy <select id="strategy"><option value="close" selected>Prefer a close win</option><option value="strong">Strongest winning margin</option></select></label>
+      </div>
+      <div class="winner" aria-live="polite" aria-atomic="true"><small id="result-label">NEXT MOVE</small><div id="result-title">Enter your board</div><p id="result-detail">Then press Find Best Move.</p><p id="search-detail"></p></div>
+      <div class="board" id="board">
+        <div class="endzone" id="player1"><label>Opponent store<input id="store-1" aria-label="Opponent store" type="number" inputmode="numeric" min="0" max="999" step="1" value="0" required></label></div>
+        <div class="side-label">My pits ↓</div><div class="side-label">Opponent pits ↑</div>
+        <div class="cup" id="0"><label id="pit-label-0">Pit 1<input id="pit-0" aria-label="My Pit 1" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="1"><label id="pit-label-12">Pit 1<input id="pit-12" aria-label="Opponent Pit 1" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="2"><label id="pit-label-1">Pit 2<input id="pit-1" aria-label="My Pit 2" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="3"><label id="pit-label-11">Pit 2<input id="pit-11" aria-label="Opponent Pit 2" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="4"><label id="pit-label-2">Pit 3<input id="pit-2" aria-label="My Pit 3" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="5"><label id="pit-label-10">Pit 3<input id="pit-10" aria-label="Opponent Pit 3" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="6"><label id="pit-label-3">Pit 4<input id="pit-3" aria-label="My Pit 4" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="7"><label id="pit-label-9">Pit 4<input id="pit-9" aria-label="Opponent Pit 4" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="8"><label id="pit-label-4">Pit 5<input id="pit-4" aria-label="My Pit 5" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="9"><label id="pit-label-8">Pit 5<input id="pit-8" aria-label="Opponent Pit 5" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="10"><label id="pit-label-5">Pit 6<input id="pit-5" aria-label="My Pit 6" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="cup" id="11"><label id="pit-label-7">Pit 6<input id="pit-7" aria-label="Opponent Pit 6" type="number" inputmode="numeric" min="0" max="999" step="1" placeholder="–" required></label></div>
+        <div class="endzone" id="player0"><label>My store<input id="store-0" aria-label="My store" type="number" inputmode="numeric" min="0" max="999" step="1" value="0" required></label></div>
+      </div>
+      <p id="total">Enter all 12 pits</p>
+      <button class="reset solve" id="solve" type="submit">Find Best Move</button>
+      <div class="actions"><button id="cancel" type="button" hidden>Cancel search</button><button id="example" type="button">Load example</button></div>
+      <p class="instructions">The blue outline marks the recommended pit.<br>After a move in GamePigeon, update the values here.<br>Suggestions do not change your board.<br><span id="mode-rules">Capture: the last stone in an empty own pit captures it and the occupied opposite pit.</span><br>Close wins are preferred only after solving to game end.<br>The opponent’s actual moves can change the final margin.</p>
+    </form>
+    <noscript>Enable JavaScript to use this solver.</noscript>
+
+  </main>
+
+  <footer>
+    <p>An ideal play engine for the GamePigeon Mancala game.</p>
+    <a href="https://github.com/ehuegler/MemeCala">
+      <img class="github" src="GitHub-Mark-Light-64px.png" alt="Check out the source code on GitHub">
+    </a>
+  </footer>
+
+  <script src="main.js?v=both-1"></script>
+
+</body>
+
+</html>
