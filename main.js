@@ -104,6 +104,17 @@ if(typeof document==='undefined' && typeof self!=='undefined') {
 if(typeof document!=='undefined') {
   const $=id=>document.getElementById(id);
   let worker=null;
+  const desktopView=window.matchMedia('(min-width: 701px)');
+  const advancedLabels=[...document.querySelectorAll('.dialog-settings > label')];
+  function arrangeDesktop(){
+    $('options-dialog').close();
+    const target=document.querySelector(desktopView.matches?'.settings':'.dialog-settings');
+    advancedLabels.forEach(label=>target.append(label));
+    (desktopView.matches?document.querySelector('.toolbar'):$('options-dialog')).append($('example'));
+    $('options').textContent=desktopView.matches?'Help':'Options';
+  }
+  desktopView.addEventListener('change',arrangeDesktop);
+  arrangeDesktop();
   $('options').onclick=()=>{$('help-rules').textContent=$('mode-rules').textContent;$('options-dialog').showModal();};
   $('close-options').onclick=()=>$('options-dialog').close();
   $('result-more').onclick=()=>{$('details-outcome').textContent=$('result-detail').textContent;$('details-search').textContent=$('search-detail').textContent;$('details-dialog').showModal();};
@@ -137,6 +148,6 @@ if(typeof document!=='undefined') {
     $('solve').disabled=true;$('cancel').hidden=false;$('result-title').textContent='Thinking…';$('result-detail').textContent=mode==='capture'?'Checking captures, extra turns and both players’ replies.':'Checking avalanche chains, extra turns and both players’ replies.';
     function show(result,done){const n=Mancala.pits(player).indexOf(result.pit)+1;const next=Mancala.move(board,player,result.pit,mode);document.querySelectorAll('.suggested').forEach(el=>el.classList.remove('suggested'));$('pit-label-'+result.pit).classList.add('suggested');$('result-label').textContent=mode.toUpperCase()+' · '+(player===0?'MY':'OPPONENT’S')+' MOVE'+(done?'':' · SEARCHING');$('result-title').textContent='Move: Pit '+n;$('result-detail').textContent=`${player===0?'My (left)':'Opponent (right)'} column, ${n}${n===1?'st':n===2?'nd':n===3?'rd':'th'} pit from the top. ${next.captured?`Captures ${next.captured} stones. `:''}${next.relays?`Continues through ${next.relays} relay pickups. `:''}${next.terminal?'Ends the game. ':next.extraTurn?'Gives an extra turn. ':''}Scores after this move: Me ${next.board[6]} · Opponent ${next.board[13]}.`;$('search-detail').textContent=`${done?'Search complete':'Thinking'} · ${result.depth} moves deep · ${result.nodes.toLocaleString()} positions. ${result.solved ? `Solved to game end against strongest replies. Expected final margin: ${result.value/1000} for Me. ${result.closeApplied?'Closest winning option selected.':''}` : 'Time-limited estimate. Close-win preference waits for a fully solved position; strongest move used for now.'}`;}
     function failed(){cancel();$('result-title').textContent='Could not start the solver.';$('result-detail').textContent='Open this app through GitHub Pages or a local web server, then try again.';$('search-detail').textContent='';}
-    try{worker=new Worker('main.js?v=compact-1');worker.onmessage=({data})=>{if(data.type==='error'){failed();return;}show(data.result,data.type==='done');if(data.type==='done'){cancel();if(!window.matchMedia('(max-width: 700px), (max-height: 600px)').matches)$('result-title').scrollIntoView({block:'center',behavior:'smooth'});}};worker.onerror=event=>{event.preventDefault();failed();};worker.postMessage({board,player,mode,timeMs:Number($('thinking').value),closeWin:$('strategy').value==='close'});}catch{failed();}
+    try{worker=new Worker('main.js?v=desktop-1');worker.onmessage=({data})=>{if(data.type==='error'){failed();return;}show(data.result,data.type==='done');if(data.type==='done'){cancel();}};worker.onerror=event=>{event.preventDefault();failed();};worker.postMessage({board,player,mode,timeMs:Number($('thinking').value),closeWin:$('strategy').value==='close'});}catch{failed();}
   };
 }

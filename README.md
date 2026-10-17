@@ -4,6 +4,8 @@ Both game modes are included in this delivery. Capture is the default. Choose Ga
 
 ## Compact mobile screen
 
+Desktop screens above 700px use a separate two-column workspace: a larger board on the left and all four settings, full search result and action buttons on the right. Thinking time and strategy are directly visible; Help opens the optional instructions. On phones, those same controls move into Options automatically. Resizing retains entered values and selected settings.
+
 The main mobile game fills the available screen height. All 12 pits, both stores, mode, turn, recommendation and action buttons remain visible together. Thinking time, strategy, sample board and help are in Options. Move details opens the full outcome and search explanation. The main game was checked without page scrolling at 320×568, 375×667, 390×700 and 430×820 browser viewports. Native keyboards and browser zoom can temporarily reduce usable space; dismiss the keyboard to see the complete game again. Optional help panels may scroll when their content exceeds the screen.
 
 ## Open either version directly

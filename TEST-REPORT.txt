@@ -1,5 +1,11 @@
 Combined Capture + Avalanche verification — 17 October 2026
 
+Desktop workspace: checked 768, 1024 and 1366px widths. Board and controls
+occupied separate columns, all four settings were visible, no horizontal
+overflow occurred, and Capture search returned a highlighted recommendation.
+Resizing to 390x700 retained the board and values, returned advanced settings
+to Options and kept document height equal to screen height. No console errors.
+
 Compact layout update: main game fits 320x568, 375x667, 390x700 and 430x820
 viewports with document height equal to viewport height. All 14 board inputs
 and the solve button were in view. Verified Options, example load, thinking

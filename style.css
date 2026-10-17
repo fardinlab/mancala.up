@@ -194,7 +194,7 @@ dialog p { font-size: 14px; line-height: 1.6; margin: 12px 0; }
 dialog button { padding: 8px 14px; margin: 4px; }
 .dialog-settings { display: grid; gap: 14px; }
 .dialog-settings label { display: grid; gap: 5px; font-size: 14px; }
-@media (max-width:700px), (max-height:600px) {
+@media (max-width:700px) {
   body { height: 100svh; min-height: 0; }
   header { height: 38px; flex: 0 0 38px; padding: 4px 10px; gap: 8px; }
   header img { height: 28px; width: 28px; }
@@ -224,4 +224,37 @@ dialog button { padding: 8px 14px; margin: 4px; }
   .toolbar button { min-height: 0; height: 42px; font-size: 13px; padding: 4px 8px; }
   .toolbar .solve { flex: 1; font-size: 15px; }
   #cancel { background: #f4d8b6; }
+}
+
+/* Desktop workspace: board on the left, controls and complete result on the right. */
+@media (min-width:701px) {
+  header { padding: 16px 24px; }
+  header img { width: 48px; height: 48px; }
+  header h1 { font-size: 32px; }
+  main { padding: 28px 24px; }
+  #solver-form { display: grid; max-width: 1080px; grid-template-columns: minmax(300px,440px) minmax(280px,1fr); grid-template-rows: auto auto minmax(160px,1fr) auto auto auto; align-content: start; align-items: start; gap: 18px 32px; }
+  #solver-form > .instructions:first-child { grid-column: 2; grid-row: 1; margin: 0; text-align: left; padding: 0; font-size: 14px; line-height: 1.8; }
+  #mode-name { font-size: 20px; font-weight: bold; }
+  .board { grid-column: 1; grid-row: 1/6; width: 100%; max-width: none; padding: 14px; gap: 8px; margin: 0; grid-template-rows: 50px 22px repeat(6,60px) 50px; border-radius: 8px; }
+  .board > div { margin: 0; padding: 6px 8px; }
+  .board > .side-label { font-size: 13px; padding: 0; margin: 0; }
+  .cup label { position: relative; height: 100%; flex-direction: row; justify-content: space-between; font-size: 14px; }
+  .cup label::after { display: none; }
+  .cup .suggested::after { display: block; position: absolute; bottom: -12px; left: 2px; min-height: 0; line-height: 12px; font-size: 9px; padding: 1px 4px; background: blue; color: white; border-radius: 3px; }
+  .cup input { width: 78px; height: 46px; min-height: 46px; padding: 5px; font-size: 24px; }
+  .endzone input { min-height: 38px; height: 38px; padding: 3px; }
+  .settings { grid-column: 2; grid-row: 2; max-width: none; margin: 0; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+  .settings label { font-size: 13px; }
+  .settings select { font-size: 15px; }
+  .winner { grid-column: 2; grid-row: 3; text-align: left; padding: 18px; border: 1px solid #a5b6b8; border-radius: 8px; background: #ffffff09; }
+  #result-title { font-size: 30px; margin: 8px 0 12px; }
+  .winner p { margin: 8px 0; font-size: 14px; max-width: none; }
+  #search-detail { font-size: 12px; }
+  #result-more { display: none; }
+  .toolbar { grid-column: 2; grid-row: 4; margin: 0; justify-content: flex-start; }
+  .toolbar .solve { width: 100%; font-size: 19px; min-height: 48px; background: #f6f4e8; }
+  .toolbar button { font-size: 14px; }
+  #total { grid-column: 1; grid-row: 6; margin-top: -10px; }
+  #solver-form > .instructions:last-child { grid-column: 2; grid-row: 5/7; margin: 0; text-align: left; font-size: 12px; line-height: 1.7; }
+  footer { padding: 12px; flex-direction: row; gap: 16px; }
 }
